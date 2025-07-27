@@ -4,144 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>เมนูอาหาร</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        margin: 20px;
-        background-color: #f9f9f9;
-        color: #333;
-      }
-      h1 {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      h2 {
-        margin-top: 40px;
-        margin-bottom: 15px;
-        border-bottom: 2px solid #d35400;
-        padding-bottom: 6px;
-      }
-      .grid {
-        display: grid;
-        gap: 20px;
-      }
-      @media (min-width: 1024px) {
-        .grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-      @media (min-width: 768px) and (max-width: 1023px) {
-        .grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-      @media (max-width: 767px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-      }
-      .item {
-        background: white;
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-      .item img {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        border-radius: 12px;
-        margin-bottom: 12px;
-      }
-      .item-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 2px; /* ลดช่องว่างลง */
-      }
-      .item-price {
-        color: #d35400;
-        font-size: 16px;
-        font-weight: 600;
-      }
-      #error-message {
-        color: red;
-        text-align: center;
-        margin-top: 40px;
-        font-size: 18px;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>เมนูอาหาร</h1>
+    <div id="featured-container">
+      <h2>เมนูแนะนำ</h2>
+      <div class="grid" id="featured-grid"></div>
+    </div>
+
     <div id="menus-container"></div>
     <div id="error-message"></div>
 
-    <script>
-      const apiURL =
-        "https://script.google.com/macros/s/AKfycbyhewpgNs1GHsstkxYIfxj1x3hQmBrKEcPhFoITbNrkkC8Bfyrlh2d2Ia3pgmthAEuM/exec"; // 🔁 แทนที่ด้วย URL API จริงของคุณ
-
-      async function fetchMenu() {
-        try {
-          const res = await fetch(apiURL);
-          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
-          const data = await res.json();
-
-          const grouped = {};
-          data.forEach((item) => {
-            const category = item["หมวดหมู่"] || "ไม่มีหมวดหมู่";
-            if (!grouped[category]) grouped[category] = [];
-            grouped[category].push(item);
-          });
-
-          const container = document.getElementById("menus-container");
-          container.innerHTML = "";
-
-          for (const category in grouped) {
-            const h2 = document.createElement("h2");
-            h2.textContent = category;
-            container.appendChild(h2);
-
-            const grid = document.createElement("div");
-            grid.className = "grid";
-
-            grouped[category].forEach((item) => {
-              const priceText = item["ราคา"]
-                ? item["ราคา"].toString().replace(/[฿]/g, "").trim()
-                : "-";
-
-              const div = document.createElement("div");
-              div.className = "item";
-              div.innerHTML = `
-                <img 
-                  src="${
-                    item["รูปภาพ (URL)"] ||
-                    "https://via.placeholder.com/300x300?text=No+Image"
-                  }" 
-                  alt="${item["ชื่อรายการอาหาร"] || ""}" 
-                  loading="lazy" 
-                  width="300" 
-                  height="300" 
-                />
-                <div class="item-title">${item["ชื่อรายการอาหาร"] || "-"}</div>
-                <div class="item-price">${priceText} บาท</div>
-              `;
-              grid.appendChild(div);
-            });
-
-            container.appendChild(grid);
-          }
-        } catch (error) {
-          console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล:", error);
-          document.getElementById("error-message").textContent =
-            "ไม่สามารถโหลดข้อมูลเมนูอาหารได้ กรุณาลองใหม่อีกครั้ง";
-        }
-      }
-
-      fetchMenu();
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
