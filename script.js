@@ -1,4 +1,4 @@
-const apiURL = "  https://script.google.com/macros/s/AKfycbyhewpgNs1GHsstkxYIfxj1x3hQmBrKEcPhFoITbNrkkC8Bfyrlh2d2Ia3pgmthAEuM/exec"; // ✅ API ของคุณ
+const apiURL = "https://script.google.com/macros/s/AKfycbzjSSvm64slgfodiNCLuoyMOkhxm8eXk_h_Aa5sgdMPYsTC-1Sl2RWgtgxz8YooAn8v/exec"; // ✅ API ของคุณ
 
 async function fetchMenu() {
   try {
